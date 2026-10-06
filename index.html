@@ -483,6 +483,14 @@ body.view-process .page--home{display:none}
 body.view-process .page--process{display:block}
 body:not(.view-process) .page--home{display:block}
 .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.field--pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;min-width:0}
+.field--pair input{width:100%;min-width:0}
+.hp{position:absolute!important;left:-10000px!important;width:1px;height:1px;overflow:hidden}
+.sent{max-width:760px;margin-top:2.6rem;border-left:3px solid var(--gold)}
+.sent--problem{border-left-color:var(--clay)}
+.sent:focus{outline:none}
+.pay .btn[disabled]{opacity:.65;cursor:wait;transform:none}
+form[hidden],.sent[hidden]{display:none!important}
 @media (max-width:760px){.form-grid{grid-template-columns:1fr}}
 .field{display:flex;flex-direction:column;gap:6px}
 .field--full{grid-column:1/-1}
@@ -1146,6 +1154,7 @@ section[id],div[id]{scroll-margin-top:90px}
         <span class="select-wrap">
           <label class="skip" for="startPick">Choose an offering</label>
           <select class="select" id="startPick">
+            <option value="email">The HeartSong by Email — $285</option>
             <option value="portrait">The HeartSong Portrait — $285</option>
             <option value="bear">The Ever-There Bear — $285</option>
             <option value="heart">The Held Heart — $285</option>
@@ -1510,7 +1519,12 @@ section[id],div[id]{scroll-margin-top:90px}
           <h3 style="margin-bottom:1em">What you'd like</h3>
           <div style="display:grid;gap:12px">
             <label class="opt">
-              <input type="radio" name="product" value="The HeartSong Portrait" data-price="285" checked>
+              <input type="radio" name="product" value="The HeartSong by Email" data-price="285" checked>
+              <span><strong>The HeartSong by Email</strong><span class="sub">Your HeartSong sent to your inbox: the song, and the heartbeat on its own at its true speed. No keepsake to ship</span></span>
+              <span class="opt__price">$285</span>
+            </label>
+            <label class="opt">
+              <input type="radio" name="product" value="The HeartSong Portrait" data-price="285">
               <span><strong>The HeartSong Portrait</strong><span class="sub">Heartbeat set to music, on a frame with the recording beside it</span></span>
               <span class="opt__price">$285</span>
             </label>
@@ -1579,15 +1593,67 @@ section[id],div[id]{scroll-margin-top:90px}
               <input id="fPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel">
             </div>
             <div class="field">
-              <label for="fWhere">City and state</label>
-              <input id="fWhere" name="where" type="text" autocomplete="address-level2" autocapitalize="words">
-            </div>
-            <div class="field field--full">
               <label for="fPay">How would you rather pay?</label>
               <select id="fPay" name="pay">
                 <option>PayPal link, please</option>
                 <option>Venmo request, please</option>
                 <option>No preference — whatever is easiest</option>
+              </select>
+            </div>
+            <div class="field field--full">
+              <label for="fRef">How did you hear about us? <span style="text-transform:none;letter-spacing:0;font-weight:400">(optional)</span></label>
+              <select id="fRef" name="referral">
+                <option value="">Choose one</option>
+                <option>A hospice or hospital</option>
+                <option>A funeral home</option>
+                <option>A veterinary practice</option>
+                <option>A church or chaplain</option>
+                <option>A friend or family member</option>
+                <option>Facebook</option>
+                <option>Instagram</option>
+                <option>Pinterest</option>
+                <option>Etsy</option>
+                <option>A Google or web search</option>
+                <option>I've ordered before</option>
+                <option>Somewhere else</option>
+              </select>
+            </div>
+          </div>
+
+          <h3 style="margin:2.2rem 0 .4em">Where should we mail it?</h3>
+          <p class="small muted" style="margin:0 0 1em">The recording kit and your keepsake both come to this address.
+             If you'd rather tell us later, leave it blank and we'll ask when we write back.</p>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="fStreet">Street address</label>
+              <input id="fStreet" name="street" type="text" autocomplete="street-address" autocapitalize="words">
+            </div>
+            <div class="field">
+              <label for="fCity">City</label>
+              <input id="fCity" name="city" type="text" autocomplete="address-level2" autocapitalize="words">
+            </div>
+            <div class="field--pair">
+              <div class="field">
+                <label for="fState">State</label>
+                <input id="fState" name="state" type="text" autocomplete="address-level1" autocapitalize="characters" maxlength="20">
+              </div>
+              <div class="field">
+                <label for="fZip">ZIP</label>
+                <input id="fZip" name="zip" type="text" autocomplete="postal-code" inputmode="numeric" maxlength="10">
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin:2.2rem 0 1em">About the recording</h3>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label for="fType">Is it a heartbeat or a voice?</label>
+              <select id="fType" name="recType">
+                <option>A person's heartbeat</option>
+                <option>A pet's heartbeat</option>
+                <option>A voice</option>
+                <option>Both a heartbeat and a voice</option>
+                <option>Not sure yet</option>
               </select>
             </div>
             <div class="field field--full">
@@ -1597,8 +1663,9 @@ section[id],div[id]{scroll-margin-top:90px}
             </div>
             <div class="field field--full">
               <label for="fWhen">Is there a date you're working toward?</label>
-              <p class="hint" id="hWhen">A birthday, an anniversary, a service — or leave this blank.</p>
-              <input id="fWhen" name="when" type="text" aria-describedby="hWhen" autocapitalize="sentences">
+              <p class="hint" id="hWhen">A birthday, an anniversary, a service — or leave this blank. If it isn't a
+                 fixed date yet, tell us about it under &ldquo;Anything we should know.&rdquo;</p>
+              <input id="fWhen" name="when" type="date" aria-describedby="hWhen">
             </div>
             <div class="field field--full">
               <label for="fSong">Song preference</label>
@@ -1614,6 +1681,10 @@ section[id],div[id]{scroll-margin-top:90px}
               <p class="hint" id="hNotes">Special instructions, a song you have in mind, whether the recording will be made
                  in a hospital or at home — anything you'd rather we understood before we write back.</p>
               <textarea id="fNotes" name="notes" rows="4" aria-describedby="hNotes"></textarea>
+            </div>
+            <div class="hp" aria-hidden="true">
+              <label for="fCompany">Company</label>
+              <input id="fCompany" name="company" type="text" tabindex="-1" autocomplete="off">
             </div>
           </div>
         </div>
@@ -1669,6 +1740,30 @@ section[id],div[id]{scroll-margin-top:90px}
           </div>
         </aside>
       </form>
+
+      <!-- ===== AFTER SENDING ===== shown in place of the form once the request is in the tracker -->
+      <div class="sent card" id="orderDone" hidden tabindex="-1">
+        <p class="eyebrow">Received</p>
+        <h3 style="margin-bottom:.6em">Thank you &mdash; we have it.</h3>
+        <p>Your request number is <strong id="doneId">&nbsp;</strong>. We'll write back personally, usually the
+           same day, with the current wait for a recording kit and a way to pay. Nothing has been charged.</p>
+        <p class="small muted" style="margin:0">If you'd like to send a photo or a recording before then, email it to
+           <a href="mailto:studio@legacyheartsongs.com">studio@legacyheartsongs.com</a> and put your request
+           number in the subject line, so it finds its way to the right place.</p>
+      </div>
+
+      <!-- ===== IF SENDING FAILS ===== nothing is lost: the visitor can email the same request -->
+      <div class="sent sent--problem card" id="orderProblem" hidden tabindex="-1">
+        <h3 style="margin-bottom:.6em">We couldn't send that just now.</h3>
+        <p>We don't want your request to get lost. Please email it to us instead &mdash; everything you
+           filled in is ready to go:</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px;margin:1.2em 0">
+          <a class="btn" id="problemMail" href="mailto:info@legacyheartsongs.com">Open it in my email</a>
+          <button class="btn btn--ghost" type="button" id="problemCopy">Copy my request</button>
+        </div>
+        <p class="small muted" style="margin:0">Or write to <a href="mailto:info@legacyheartsongs.com">info@legacyheartsongs.com</a>
+           and paste it in. <span id="copyNote"></span></p>
+      </div>
 
       <p class="tiny" style="margin-top:2.4rem;max-width:70ch">
         A heart song is a keepsake, not a medical device. It does not detect, diagnose, or monitor any
@@ -1813,7 +1908,7 @@ section[id],div[id]{scroll-margin-top:90px}
   if (startForm) {
     startForm.addEventListener('submit', function (e) {
       e.preventDefault();
-      var map = { portrait: 'The HeartSong Portrait', bear: 'The Ever-There Bear',
+      var map = { email: 'The HeartSong by Email', portrait: 'The HeartSong Portrait', bear: 'The Ever-There Bear',
                   heart: 'The Held Heart', unsure: 'Not sure yet — please help me choose' };
       var want = map[document.getElementById('startPick').value];
       var radio = document.querySelector('#orderForm input[name="product"][value="' + want + '"]');
@@ -1876,15 +1971,30 @@ section[id],div[id]{scroll-margin-top:90px}
     totalEl.textContent = d.undecided ? 'To discuss' : money(d.total);
   }
 
+  /* ==================================================================
+     WHERE ORDERS GO
+     Paste the Web app URL from Apps Script (Deploy > Manage deployments)
+     between the quotes. Until it is filled in, the Send button falls back
+     to opening the visitor's email program, exactly as before.
+     ================================================================== */
+  var ORDER_ENDPOINT = 'https://script.google.com/macros/s/AKfycbwOy5ClyaTq5aR9e_h6SeT9onrFizibRfVoyUIdExonSiMSMTScB9GDNHANHryoX06R/exec';
+
+  var openedAt = Date.now();
+
   if (form) {
     form.addEventListener('change', updateSummary);
     updateSummary();
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (!form.reportValidity()) return;
+    var get = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
+
+    function niceDate(v) {
+      var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+      if (!m) return v;
+      return new Date(+m[1], +m[2] - 1, +m[3]).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    function buildEmail() {
       var d = collect();
-      var get = function (n) { var el = form.querySelector('[name="' + n + '"]'); return el ? el.value.trim() : ''; };
       var L = [];
       L.push('What I’d like');
       d.items.forEach(function (it) {
@@ -1896,20 +2006,106 @@ section[id],div[id]{scroll-margin-top:90px}
       L.push('  Name: ' + get('name'));
       L.push('  Email: ' + get('email'));
       if (get('phone')) L.push('  Phone: ' + get('phone'));
-      if (get('where')) L.push('  Where I am: ' + get('where'));
-      L.push('  Paying by: ' + get('pay'));
+      if (get('street')) L.push('  Street: ' + get('street'));
+      if (get('city') || get('state') || get('zip')) L.push('  City, state, ZIP: ' + [get('city'), get('state'), get('zip')].filter(Boolean).join(', '));
+      L.push('  Payment: ' + get('pay'));
+      if (get('referral')) L.push('  Heard about us: ' + get('referral'));
       L.push('');
+      L.push('Recording type: ' + get('recType'));
       if (get('who')) L.push('Whose heartbeat or voice: ' + get('who'));
-      if (get('when')) L.push('A date I’m working toward: ' + get('when'));
+      if (get('when')) L.push('A date I’m working toward: ' + niceDate(get('when')));
       L.push('Song preference: ' + get('song'));
       if (get('notes')) { L.push(''); L.push('Anything you should know'); L.push(get('notes')); }
       L.push('');
       L.push('— Sent from legacyheartsongs.com');
 
       var subject = 'Heart Songs request — ' + (d.items[0] ? d.items[0].label : 'enquiry');
-      window.location.href = 'mailto:info@legacyheartsongs.com'
-        + '?subject=' + encodeURIComponent(subject)
-        + '&body=' + encodeURIComponent(L.join('\n'));
+      return { subject: subject, body: L.join('\n') };
+    }
+
+    function mailtoHref() {
+      var m = buildEmail();
+      return 'mailto:info@legacyheartsongs.com?subject=' + encodeURIComponent(m.subject) +
+             '&body=' + encodeURIComponent(m.body);
+    }
+
+    function show(id) {
+      var el = document.getElementById(id);
+      form.hidden = true;
+      el.hidden = false;
+      window.requestAnimationFrame(function () { el.scrollIntoView({ block: 'center' }); el.focus({ preventScroll: true }); });
+    }
+
+    function showProblem() {
+      document.getElementById('problemMail').href = mailtoHref();
+      show('orderProblem');
+    }
+
+    var copyBtn = document.getElementById('problemCopy');
+    if (copyBtn) copyBtn.addEventListener('click', function () {
+      var text = buildEmail().body;
+      var note = document.getElementById('copyNote');
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(function () { note.textContent = 'Copied — paste it into a new email.'; },
+                                                 function () { note.textContent = ''; });
+      }
+    });
+
+    var submissionId = 'w' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+
+      // Not connected yet: behave as before and open the visitor's email program.
+      if (ORDER_ENDPOINT.indexOf('https://script.google.com/') !== 0) {
+        window.location.href = mailtoHref();
+        return;
+      }
+
+      var d = collect();
+      var picked = form.querySelector('input[name="product"]:checked');
+      var cap = form.querySelector('input[name="capture"]:checked');
+      var payload = {
+        submissionId: submissionId,
+        product: picked ? picked.value : '',
+        capture: cap ? cap.value : '',
+        shareback: form.querySelector('input[name="shareback"]:checked') ? 'Yes' : 'No',
+        totalShown: d.undecided ? 'to discuss' : money(d.total),
+        name: get('name'), email: get('email'), phone: get('phone'),
+        street: get('street'), city: get('city'), state: get('state'), zip: get('zip'),
+        pay: get('pay'), referral: get('referral'),
+        recType: get('recType'), who: get('who'), when: get('when'), song: get('song'), notes: get('notes'),
+        company: get('company'),
+        secondsOnPage: Math.round((Date.now() - openedAt) / 1000),
+        shopState: document.documentElement.className
+      };
+
+      var btn = form.querySelector('button[type="submit"]');
+      var label = btn ? btn.textContent : '';
+      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+
+      var done = false;
+      var timer = setTimeout(function () { if (!done) { done = true; showProblem(); } }, 20000);
+
+      fetch(ORDER_ENDPOINT, { method: 'POST', body: JSON.stringify(payload) })   // text/plain: no preflight
+        .then(function (r) { return r.json(); })
+        .then(function (res) {
+          if (done) return;
+          done = true; clearTimeout(timer);
+          if (res && res.ok) {
+            document.getElementById('doneId').textContent = res.orderId || 'on its way to us';
+            show('orderDone');
+          } else {
+            showProblem();
+          }
+        })
+        .catch(function () {
+          if (done) return;
+          done = true; clearTimeout(timer);
+          showProblem();
+        })
+        .then(function () { if (btn) { btn.disabled = false; btn.textContent = label; } });
     });
   }
 
