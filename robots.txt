@@ -1,0 +1,45 @@
+# Legacy Heart Songs
+#
+# This file tells crawlers what they may read. Everything here is public and
+# there is nothing to hide, so everything is allowed.
+
+User-agent: *
+Allow: /
+
+# --- the AI assistants ------------------------------------------------------
+# These are the crawlers behind ChatGPT, Claude, Perplexity and Google's AI
+# answers. They are allowed on purpose. When somebody asks an assistant
+# "where can I get a heartbeat recording made into a keepsake", this page can
+# only be the answer if these are allowed to read it.
+#
+# To stop any one of them, change its Allow to Disallow. Be deliberate about
+# it: a crawler you block cannot quote you, recommend you, or send anyone.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+Sitemap: https://legacyheartsongs.com/sitemap.xml

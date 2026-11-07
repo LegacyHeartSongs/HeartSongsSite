@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Legacy Heart Songs - sitemap
+
+  This site is one page, so this file lists one address. Change the date in
+  <lastmod> whenever the page changes in a way that matters; leave it alone
+  for a typo fix. If the domain is ever anything other than
+  legacyheartsongs.com, change it here, in robots.txt, and in the canonical
+  link near the top of index.html - all three must agree.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://legacyheartsongs.com/</loc>
+    <lastmod>2026-11-07</lastmod>
+  </url>
+</urlset>
